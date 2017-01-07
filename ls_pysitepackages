@@ -1,0 +1,7 @@
+#!/usr/local/bin/python
+import site; 
+import pprint;
+print("SITE PACKAGE LOCATIONS ARE:")
+pprint.pprint(site.getsitepackages());
+
+
