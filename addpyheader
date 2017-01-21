@@ -8,26 +8,43 @@
 
 import sys
 import os.path
+import argparse
+MY_TITLE = "Luke Bechtel (Marviel)"
+BASIC_DESCRIPTION = "TODO"
 
-filename = sys.argv[1]
+parser = argparse.ArgumentParser(description=\
+          "Adds a generic python header to the file specified as argv[1]")
+parser.add_argument('modfile', type=argparse.FileType('r'))
+parser.add_argument('--python3', action='store_true')
+parser.add_argument('-t', '--title', type=str)
+parser.add_argument('-a', '--authors', type=str, nargs='*')
+parser.add_argument('-d', '--description', type=str)
+args = parser.parse_args()
 
-if not os.path.isfile(filename):
-  print("filepath %s does not exist as a regular file!"%(filename))
-  os.exit()
+#Construct strings
+modfile = args.modfile
+filename = modfile.name
+python_version_string = "python" + ("3" if args.python3 else "")
+title_string = os.path.basename(filename) if not args.title else args.title
+authors_string = ", ".join(args.authors) if args.authors else MY_TITLE
+authors_plural = "s" if args.authors and len(args.authors) > 0 else ""
+description_string = args.description if args.description else BASIC_DESCRIPTION
 
-#Construct header
 header = \
-"""#!/usr/bin/python3 
-#Title:         %s
-#Author:        Luke Bechtel
+"""#!/usr/bin/%s 
+#Title:      %s
+#Author%s:     %s
 #Description: 
-#  TODO
+#  %s
 #
 
-"""%(os.path.basename(filename))
+"""%(python_version_string,
+     title_string,
+     authors_plural,
+     authors_string,
+     description_string) 
 
-
-data = ""
-with file(filename, 'r') as original: data = original.read()
+data = modfile.read()
+modfile.close()
 with file(filename, 'w') as modified: modified.write(header + data)
 
