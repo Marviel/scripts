@@ -20,8 +20,9 @@ header = \
 """#!/usr/bin/python3 
 #Title:         %s
 #Author:        Luke Bechtel
-#Description: TODO
-
+#Description: 
+#  TODO
+#
 
 """%(os.path.basename(filename))
 
