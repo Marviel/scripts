@@ -1,5 +1,20 @@
 #!/usr/local/bin/python
 
 import trimesh
+import sys
 
-trimesh.fix_normals()
+
+assert len(sys.argv) == 3
+fname = sys.argv[1]
+out_fname = sys.argv[2]
+
+print("loading mesh...")
+m = trimesh.load_mesh(fname)
+print("loaded mesh.")
+print("fixing mesh...")
+m.fix_normals()
+print("fixed mesh.")
+print("exporting mesh...")
+m.export(file_obj=out_fname, file_type='stl')
+print("mesh exported.")
+

@@ -1,0 +1,32 @@
+#!/usr/bin/python
+#Title:         add_pyheader
+#Author:        Luke Bechtel
+#Description:   
+#  Adds a generic python header to the file specified as argv[1]
+#  WARNING: I'd recommend you only use this at the beginning 
+#  of working on a file. Or only under version control. Just for safety's sake.
+
+import sys
+import os.path
+
+filename = sys.argv[1]
+
+if not os.path.isfile(filename):
+  print("filepath %s does not exist as a regular file!"%(filename))
+  os.exit()
+
+#Construct header
+header = \
+"""#!/usr/bin/python3 
+#Title:         %s
+#Author:        Luke Bechtel
+#Description: TODO
+
+
+"""%(os.path.basename(filename))
+
+
+data = ""
+with file(filename, 'r') as original: data = original.read()
+with file(filename, 'w') as modified: modified.write(header + data)
+
